@@ -1,7 +1,9 @@
 package blog
 
 import (
+	"encoding/json"
 	"fmt"
+	"io"
 
 	"github.com/pborman/uuid"
 )
@@ -16,6 +18,15 @@ type Article struct {
 	Id      uuid.UUID `json:"id"`
 	Title   string    `json:"title"`
 	Content string    `json:"content"`
+}
+
+func (a *Article) Reader() io.Reader {
+	r, w := io.Pipe()
+	go func() {
+		json.NewEncoder(w).Encode(a)
+		w.Close()
+	}()
+	return r
 }
 
 func (b Blog) SaveArticle(v ...*Article) error {
