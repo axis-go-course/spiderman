@@ -11,11 +11,15 @@ import (
 )
 
 func TestRouter(t *testing.T) {
-	router := NewService()
+	A := &Article{Title: "first", Content: "first"}
+	B := &Article{Title: "second", Content: "second"}
+	all := []*Article{A, B}
+	s := NewService()
+	s.blog.SaveArticle(all...)
+
 	assert := asserter.New(t)
-	exp := assert().ResponseFrom(router)
+	exp := assert().ResponseFrom(s)
 	exp.StatusCode(200, "GET", "/articles", nil)
-	exp.BodyIs("{}\n", "GET", "/articles", nil)
 
 	article := &Article{Title: "hello world", Content: "more here"}
 	r, w := io.Pipe()
@@ -27,8 +31,8 @@ func TestRouter(t *testing.T) {
 }
 
 func ExampleRouter_ServeHTTP() {
-	router := NewService()
-	router.ServeHTTP(ex.BodyOf(http.NewRequest("GET", "/articles", nil)))
+	s := NewService()
+	s.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:
-	// {}
+	// []
 }

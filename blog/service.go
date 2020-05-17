@@ -9,7 +9,10 @@ import (
 
 func NewService() *Service {
 	r := mux.NewRouter()
-	s := &Service{router: r}
+	s := &Service{
+		router: r,
+		blog:   NewBlog(),
+	}
 	r.Handle("/articles", s.ReadArticles()).Methods("GET")
 	r.Handle("/articles", s.CreateArticle()).Methods("POST")
 	return s
@@ -17,6 +20,7 @@ func NewService() *Service {
 
 type Service struct {
 	router *mux.Router
+	blog   Blog
 }
 
 func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
@@ -32,6 +36,8 @@ func (s *Service) CreateArticle() http.HandlerFunc {
 
 func (s *Service) ReadArticles() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		json.NewEncoder(w).Encode(struct{}{})
+		result := make([]*Article, 5)
+		n := s.blog.LoadArticles(result)
+		json.NewEncoder(w).Encode(result[:n])
 	}
 }
