@@ -35,10 +35,10 @@ func (b Blog) LoadArticles(v []*Article) int {
 	return i
 }
 
-func (b Blog) DeleteArticle(title string) int {
+func (b Blog) DeleteArticle(title string) error {
 	if _, found := b[title]; found {
 		delete(b, title)
-		return 1
+		return nil
 	}
-	return 0
+	return fmt.Errorf("article not found")
 }

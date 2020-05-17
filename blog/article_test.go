@@ -23,8 +23,7 @@ func Test_blog(t *testing.T) {
 		t.Error("load partial expected", exp, "articles, got", got)
 	}
 
-	exp = 1
-	if got := b.DeleteArticle(A.Title); got != exp {
-		t.Error("delete expected", exp, "articles, got", got)
+	if err := b.DeleteArticle(A.Title); err != nil {
+		t.Error("delete expected", err)
 	}
 }
