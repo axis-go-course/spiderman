@@ -16,6 +16,7 @@ func NewService() *Service {
 	}
 	r.Handle("/articles", s.ReadArticles()).Methods("GET")
 	r.Handle("/articles", s.CreateArticle()).Methods("POST")
+	r.Handle("/", s.UserInterface())
 	return s
 }
 

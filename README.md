@@ -15,3 +15,8 @@ Go programming course in designing and verifying webservices
 1. Error handling
 1. Logging
 1. Modularization
+
+## Quick start
+
+1. Install go
+1. ```go install golang.org/x/tools/cmd/godoc```
