@@ -11,6 +11,7 @@ import (
 
 func main() {
 	cli := &cli{}
+	flag.StringVar(&cli.templatesDir, "t", ".", "path to templates")
 	flag.StringVar(&cli.bind, "bind", ":8080", "[host]:port to listen on")
 	flag.Parse()
 
@@ -21,10 +22,11 @@ func main() {
 }
 
 type cli struct {
-	bind string
+	templatesDir string
+	bind         string
 }
 
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
-	return http.ListenAndServe(c.bind, blog.NewService())
+	return http.ListenAndServe(c.bind, blog.NewService(c.templatesDir))
 }

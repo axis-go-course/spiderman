@@ -9,7 +9,7 @@ import (
 )
 
 func Test_service(t *testing.T) {
-	s := NewService()
+	s := NewService("templates")
 	assert := asserter.New(t)
 	exp := assert().ResponseFrom(s)
 
@@ -29,7 +29,7 @@ func Test_service(t *testing.T) {
 }
 
 func ExampleService_ServeHTTP() {
-	s := NewService()
+	s := NewService("templates")
 	s.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:
 	// []

@@ -8,7 +8,7 @@ import (
 	"github.com/gorilla/mux"
 )
 
-func NewService() *Service {
+func NewService(templatesDir string) *Service {
 	r := mux.NewRouter()
 	s := &Service{
 		router: r,
@@ -17,7 +17,7 @@ func NewService() *Service {
 	r.Handle("/articles", s.ReadArticles()).Methods("GET")
 	r.Handle("/articles", s.CreateArticle()).Methods("POST")
 	r.Handle("/articles/{title}", s.DeleteArticle()).Methods("DELETE")
-	r.Handle("/", s.UserInterface())
+	r.Handle("/", s.UserInterface(templatesDir))
 	return s
 }
 
