@@ -1,11 +1,10 @@
 package blog
 
-import "fmt"
+import (
+	"fmt"
 
-type Article struct {
-	Title   string `json:"title"`
-	Content string `json:"content"`
-}
+	"github.com/pborman/uuid"
+)
 
 func NewBlog() Blog {
 	return make(map[string]*Article)
@@ -13,11 +12,18 @@ func NewBlog() Blog {
 
 type Blog map[string]*Article
 
+type Article struct {
+	Id      uuid.UUID `json:"id"`
+	Title   string    `json:"title"`
+	Content string    `json:"content"`
+}
+
 func (b Blog) SaveArticle(v ...*Article) error {
 	for _, a := range v {
 		if a.Title == "" {
 			return fmt.Errorf("missing title")
 		}
+		a.Id = uuid.NewUUID()
 		b[a.Title] = a
 	}
 	return nil

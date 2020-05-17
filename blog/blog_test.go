@@ -11,6 +11,12 @@ func Test_blog(t *testing.T) {
 	mustNot(t, b.SaveArticle(&Article{}))
 	mustNot(t, b.DeleteArticle("no such title"))
 
+	for _, v := range all {
+		if v.Id.String() == "" {
+			t.Fatal("UUID not generated")
+		}
+	}
+
 	result := make([]*Article, 5)
 	exp := len(all)
 	if got := b.LoadArticles(result); got != exp {
