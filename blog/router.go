@@ -1,6 +1,9 @@
 package blog
 
-import "net/http"
+import (
+	"encoding/json"
+	"net/http"
+)
 
 func NewRouter() *Router {
 	return &Router{}
@@ -9,5 +12,5 @@ func NewRouter() *Router {
 type Router struct{}
 
 func (r *Router) ServeHTTP(w http.ResponseWriter, q *http.Request) {
-
+	json.NewEncoder(w).Encode(struct{}{})
 }
