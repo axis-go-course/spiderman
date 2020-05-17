@@ -22,7 +22,7 @@ func Test_service(t *testing.T) {
 	assert(len(s.blog) == 2).Fatal("articles not saved")
 	exp.StatusCode(200, "GET", "/articles", nil)
 	exp.StatusCode(200, "GET", "/", nil)
-	exp.Contains("<html", "GET", "/", nil)
+	exp.Contains("first", "GET", "/", nil)
 }
 
 func ExampleService_ServeHTTP() {
