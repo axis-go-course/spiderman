@@ -23,11 +23,10 @@ func (s *Service) UserInterface() http.HandlerFunc {
 const htmlTemplates = `
 {{define "index"}}<!DOCTYPE html>
 
-<html><body>
-<h1>{{.BlogName}}</h1>
-
+<html>
+<head>
 <script>
-function generateNewEntry() {
+function postArticle() {
  var xhr = new XMLHttpRequest()
   xhr.open("POST", "/articles")
   xhr.setRequestHeader('Content-Type', 'application/json; charset=UTF-8')
@@ -43,10 +42,21 @@ function generateNewEntry() {
   }
 }
 </script>
-Title: <input id="title"><br>
-Content: <textarea id="content"></textarea><br>
+<style>
+label { display: inline-block; width: 100px; float: left }
+input { width: 100% }
+textarea { width: 100%; height: 100px }
+</style>
+</head>
+<body>
+<h1>{{.BlogName}}</h1>
 
-<button onclick="generateNewEntry()">Post</button>
+<div>
+<label>Title:</label><input id="title"><br>
+<label>Content:</label><textarea id="content"></textarea><br>
+<button onclick="postArticle()">Post</button>
+</div>
+
 <hr>
 
 {{range .Articles}}{{template "article" . }}{{end}}
