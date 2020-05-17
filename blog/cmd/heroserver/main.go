@@ -30,5 +30,5 @@ type httpServer interface {
 }
 
 func (c *cli) run() error {
-	return http.ListenAndServe(c.bind, blog.NewRouter())
+	return http.ListenAndServe(c.bind, blog.NewService())
 }
