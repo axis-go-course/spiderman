@@ -21,14 +21,10 @@ func main() {
 }
 
 type cli struct {
-	bind   string
-	server httpServer
-}
-
-type httpServer interface {
-	ListenAndServe() error
+	bind string
 }
 
 func (c *cli) run() error {
+	fmt.Println("listening on", c.bind)
 	return http.ListenAndServe(c.bind, blog.NewService())
 }
