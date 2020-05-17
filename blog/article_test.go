@@ -8,9 +8,8 @@ func Test_blog(t *testing.T) {
 	all := []*Article{A, B}
 	b := NewBlog()
 	b.SaveArticle(all...)
-
-	b.SaveArticle(&Article{})        // should never get saved
-	b.DeleteArticle("no such title") // nothing removed
+	mustNot(t, b.SaveArticle(&Article{}))
+	mustNot(t, b.DeleteArticle("no such title"))
 
 	result := make([]*Article, 5)
 	exp := len(all)
@@ -25,5 +24,12 @@ func Test_blog(t *testing.T) {
 
 	if err := b.DeleteArticle(A.Title); err != nil {
 		t.Error("delete expected", err)
+	}
+}
+
+func mustNot(t *testing.T, err error) {
+	t.Helper()
+	if err == nil {
+		t.Fatal(err)
 	}
 }
