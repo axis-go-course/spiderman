@@ -8,18 +8,22 @@ import (
 	"github.com/gregoryv/ex"
 )
 
-func xTestRouter(t *testing.T) {
+func Test_service(t *testing.T) {
 	s := NewService()
-	A := &Article{Title: "first", Content: "first"}
-	B := &Article{Title: "second", Content: "second"}
 	assert := asserter.New(t)
 	exp := assert().ResponseFrom(s)
+
+	bad := &Article{}
+	exp.StatusCode(400, "POST", "/articles", bad.Reader())
+	A := &Article{Title: "first", Content: "first"}
+	B := &Article{Title: "second", Content: "second"}
 	exp.StatusCode(201, "POST", "/articles", A.Reader())
 	exp.StatusCode(201, "POST", "/articles", B.Reader())
+	assert(len(s.blog) == 2).Fatal("articles not saved")
 	exp.StatusCode(200, "GET", "/articles", nil)
 }
 
-func xExampleRouter_ServeHTTP() {
+func ExampleService_ServeHTTP() {
 	s := NewService()
 	s.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:

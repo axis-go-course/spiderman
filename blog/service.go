@@ -2,6 +2,7 @@ package blog
 
 import (
 	"encoding/json"
+	"io"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -29,8 +30,14 @@ func (s *Service) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 func (s *Service) CreateArticle() http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
+		var v Article
+		json.NewDecoder(r.Body).Decode(&v)
+		if err := s.blog.SaveArticle(&v); err != nil {
+			w.WriteHeader(http.StatusBadRequest)
+			return
+		}
 		w.WriteHeader(http.StatusCreated)
-		json.NewEncoder(w).Encode(struct{}{})
+		io.Copy(w, v.Reader())
 	}
 }
 
