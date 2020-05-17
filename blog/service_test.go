@@ -23,6 +23,9 @@ func Test_service(t *testing.T) {
 	exp.StatusCode(200, "GET", "/articles", nil)
 	exp.StatusCode(200, "GET", "/", nil)
 	exp.Contains("first", "GET", "/", nil)
+	exp.StatusCode(404, "DELETE", "/articles/nosuch")
+	exp.StatusCode(204, "DELETE", "/articles/first")
+	assert(len(s.blog) == 1).Fatal("article not deleted")
 }
 
 func ExampleService_ServeHTTP() {

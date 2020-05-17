@@ -16,6 +16,7 @@ func NewService() *Service {
 	}
 	r.Handle("/articles", s.ReadArticles()).Methods("GET")
 	r.Handle("/articles", s.CreateArticle()).Methods("POST")
+	r.Handle("/articles/{title}", s.DeleteArticle()).Methods("DELETE")
 	r.Handle("/", s.UserInterface())
 	return s
 }
@@ -47,5 +48,16 @@ func (s *Service) ReadArticles() http.HandlerFunc {
 		result := make([]*Article, 5)
 		n := s.blog.LoadArticles(result)
 		json.NewEncoder(w).Encode(result[:n])
+	}
+}
+
+func (s *Service) DeleteArticle() http.HandlerFunc {
+	return func(w http.ResponseWriter, r *http.Request) {
+		vars := mux.Vars(r)
+		if err := s.blog.DeleteArticle(vars["title"]); err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			return
+		}
+		w.WriteHeader(http.StatusNoContent)
 	}
 }
