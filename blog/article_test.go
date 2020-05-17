@@ -2,43 +2,29 @@ package blog
 
 import "testing"
 
-func TestSaveArticle(t *testing.T) {
+func Test_blog(t *testing.T) {
+	A := &Article{Title: "first", Content: "first"}
+	B := &Article{Title: "second", Content: "second"}
+	all := []*Article{A, B}
 	b := NewBlog()
-	a := &Article{Title: "not empty", Content: "not empty"}
-	if err := b.SaveArticle(a); err != nil {
-		t.Error(err)
-	}
-}
+	b.SaveArticle(all...)
 
-func TestLoadArticles(t *testing.T) {
-	b := NewBlog()
-	for _, a := range []*Article{
-		&Article{Title: "first", Content: "first"},
-		&Article{Title: "second", Content: "second"},
-	} {
-		b.SaveArticle(a)
+	b.SaveArticle(&Article{})        // should never get saved
+	b.DeleteArticle("no such title") // nothing removed
+
+	result := make([]*Article, 5)
+	exp := len(all)
+	if got := b.LoadArticles(result); got != exp {
+		t.Error("load all expected", exp, "articles, got", got)
 	}
 
-	result := make([]*Article, 3)
-	if got, exp := b.LoadArticles(result), 2; got != exp {
-		t.Error("expected", exp, "articles, got", got)
+	exp = 1
+	if got := b.LoadArticles(result[:exp]); got != exp {
+		t.Error("load partial expected", exp, "articles, got", got)
 	}
 
-	result = make([]*Article, 1)
-	if got, exp := b.LoadArticles(result), 1; got != exp {
-		t.Error("expected", exp, "articles, got", got)
-	}
-}
-
-func TestDeleteArticle(t *testing.T) {
-	b := NewBlog()
-	a := &Article{Title: "first", Content: "first"}
-	b.SaveArticle(a)
-	if got, exp := b.DeleteArticle(a.Title), 1; got != exp {
-		t.Error("expected", exp, "articles, got", got)
-	}
-
-	if got, exp := b.DeleteArticle("no such title"), 0; got != exp {
-		t.Error("expected", exp, "articles, got", got)
+	exp = 1
+	if got := b.DeleteArticle(A.Title); got != exp {
+		t.Error("delete expected", exp, "articles, got", got)
 	}
 }

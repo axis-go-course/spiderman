@@ -13,11 +13,13 @@ func NewBlog() Blog {
 
 type Blog map[string]*Article
 
-func (b Blog) SaveArticle(a *Article) error {
-	if a.Title == "" {
-		return fmt.Errorf("missing title")
+func (b Blog) SaveArticle(v ...*Article) error {
+	for _, a := range v {
+		if a.Title == "" {
+			return fmt.Errorf("missing title")
+		}
+		b[a.Title] = a
 	}
-	b[a.Title] = a
 	return nil
 }
 
