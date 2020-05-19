@@ -1,22 +1,24 @@
 # spiderman
 
-Go programming course in designing and verifying webservices
+Course is between 8-17 on 25/5 in Kebenekaise. Bring a laptop.
 
-1. History
-1. [Tour](https://tour.golang.org/)
-1. Tools
-1. Packages
+1. Short history
+1. Quick language runthrough
+1. Tools - the go family
+1. Packages - most frequently used
 1. Templating
-1. Testing
+1. Testing - the various flavours
+
+Lunch break - afternoon we build a webapp
 
 1. Structure
 1. REST
-1. Building
 1. Error handling
 1. Logging
 1. Modularization
+1. Lambdas and AWS
 
-## Quick start
+## Prepare your laptop
 
-1. Install go
-1. ```go install golang.org/x/tools/cmd/godoc```
+1. Install Go https://golang.org/, verify it works
+1. Have a github account ready, https://github.com/
