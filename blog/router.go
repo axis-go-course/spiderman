@@ -3,6 +3,7 @@ package blog
 import (
 	"encoding/json"
 	"io"
+	"log"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -14,7 +15,17 @@ func NewRouter(s *Service) *mux.Router {
 	r.Handle("/articles", ReadArticles(s)).Methods("GET")
 	r.Handle("/articles/{title}", DeleteArticle(s)).Methods("DELETE")
 	r.Handle("/", s.UserInterface(s.templatesDir))
+
+	// middlewares
+	r.Use(logAllRequests)
 	return r
+}
+
+func logAllRequests(next http.Handler) http.Handler {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		log.Println(r.Method, r.RequestURI)
+		next.ServeHTTP(w, r)
+	})
 }
 
 func CreateArticle(s *Service) http.HandlerFunc {
