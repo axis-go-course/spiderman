@@ -2,13 +2,13 @@ package blog
 
 func NewService(templatesDir string) *Service {
 	s := &Service{
-		blog:         NewBlog(),
-		templatesDir: templatesDir,
+		Blog:         NewBlog(),
+		TemplatesDir: templatesDir,
 	}
 	return s
 }
 
 type Service struct {
-	blog         Blog
-	templatesDir string
+	Blog         Blog
+	TemplatesDir string
 }

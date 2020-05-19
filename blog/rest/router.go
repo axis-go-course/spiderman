@@ -1,4 +1,4 @@
-package blog
+package rest
 
 import (
 	"encoding/json"
@@ -6,15 +6,16 @@ import (
 	"log"
 	"net/http"
 
+	"github.com/axis-go-course/spiderman/blog"
 	"github.com/gorilla/mux"
 )
 
-func NewRouter(s *Service) *mux.Router {
+func NewRouter(s *blog.Service) *mux.Router {
 	r := mux.NewRouter()
-	r.Handle("/articles", CreateArticle(s)).Methods("POST")
-	r.Handle("/articles", ReadArticles(s)).Methods("GET")
-	r.Handle("/articles/{title}", DeleteArticle(s)).Methods("DELETE")
-	r.Handle("/", s.UserInterface(s.templatesDir))
+	r.Handle("/articles", CreateArticle(s.Blog)).Methods("POST")
+	r.Handle("/articles", ReadArticles(s.Blog)).Methods("GET")
+	r.Handle("/articles/{title}", DeleteArticle(s.Blog)).Methods("DELETE")
+	r.Handle("/", blog.UserInterface(s))
 
 	// middlewares
 	r.Use(logAllRequests)
@@ -28,11 +29,11 @@ func logAllRequests(next http.Handler) http.Handler {
 	})
 }
 
-func CreateArticle(s *Service) http.HandlerFunc {
+func CreateArticle(b blog.Blog) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var v Article
+		var v blog.Article
 		json.NewDecoder(r.Body).Decode(&v)
-		if err := s.blog.SaveArticle(&v); err != nil {
+		if err := b.SaveArticle(&v); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
@@ -41,18 +42,18 @@ func CreateArticle(s *Service) http.HandlerFunc {
 	}
 }
 
-func ReadArticles(s *Service) http.HandlerFunc {
+func ReadArticles(b blog.Blog) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		result := make([]*Article, 5)
-		n := s.blog.LoadArticles(result)
+		result := make([]*blog.Article, 5)
+		n := b.LoadArticles(result)
 		json.NewEncoder(w).Encode(result[:n])
 	}
 }
 
-func DeleteArticle(s *Service) http.HandlerFunc {
+func DeleteArticle(b blog.Blog) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		if err := s.blog.DeleteArticle(vars["title"]); err != nil {
+		if err := b.DeleteArticle(vars["title"]); err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
