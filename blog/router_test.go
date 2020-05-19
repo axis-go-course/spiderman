@@ -10,8 +10,9 @@ import (
 
 func Test_service(t *testing.T) {
 	s := NewService("templates")
+	r := NewRouter(s)
 	assert := asserter.New(t)
-	exp := assert().ResponseFrom(s)
+	exp := assert().ResponseFrom(r)
 
 	bad := &Article{}
 	exp.StatusCode(400, "POST", "/articles", bad.Reader())
@@ -28,9 +29,10 @@ func Test_service(t *testing.T) {
 	assert(len(s.blog) == 1).Fatal("article not deleted")
 }
 
-func ExampleService_ServeHTTP() {
+func ExampleNewRouter_GET_articles() {
 	s := NewService("templates")
-	s.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
+	r := NewRouter(s)
+	r.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:
 	// []
 }

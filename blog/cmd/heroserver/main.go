@@ -28,5 +28,7 @@ type cli struct {
 
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
-	return http.ListenAndServe(c.bind, blog.NewService(c.templatesDir))
+	s := blog.NewService(c.templatesDir)
+	r := blog.NewRouter(s)
+	return http.ListenAndServe(c.bind, r)
 }
