@@ -8,11 +8,11 @@ import (
 	"github.com/pborman/uuid"
 )
 
-func NewBlog() Blog {
+func NewDatabase() Database {
 	return make(map[string]*Article)
 }
 
-type Blog map[string]*Article
+type Database map[string]*Article
 
 type Article struct {
 	Id      uuid.UUID `json:"id"`
@@ -29,7 +29,7 @@ func (a *Article) Reader() io.Reader {
 	return r
 }
 
-func (b Blog) SaveArticle(v ...*Article) error {
+func (b Database) SaveArticle(v ...*Article) error {
 	for _, a := range v {
 		if a.Title == "" {
 			return fmt.Errorf("missing title")
@@ -40,7 +40,7 @@ func (b Blog) SaveArticle(v ...*Article) error {
 	return nil
 }
 
-func (b Blog) LoadArticles(v []*Article) int {
+func (b Database) LoadArticles(v []*Article) int {
 	var i int
 	for _, a := range b {
 		if i == len(v) {
@@ -52,7 +52,7 @@ func (b Blog) LoadArticles(v []*Article) int {
 	return i
 }
 
-func (b Blog) DeleteArticle(title string) error {
+func (b Database) DeleteArticle(title string) error {
 	if _, found := b[title]; found {
 		delete(b, title)
 		return nil

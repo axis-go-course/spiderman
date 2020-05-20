@@ -13,9 +13,9 @@ import (
 
 func NewRouter(s *blog.Service) *mux.Router {
 	r := mux.NewRouter()
-	r.Handle("/articles", CreateArticle(s.Blog)).Methods("POST")
-	r.Handle("/articles", ReadArticles(s.Blog)).Methods("GET")
-	r.Handle("/articles/{title}", DeleteArticle(s.Blog)).Methods("DELETE")
+	r.Handle("/articles", CreateArticle(s.DB)).Methods("POST")
+	r.Handle("/articles", ReadArticles(s.DB)).Methods("GET")
+	r.Handle("/articles/{title}", DeleteArticle(s.DB)).Methods("DELETE")
 	r.Handle("/", ui.UserInterface(s))
 
 	// middlewares
@@ -30,7 +30,7 @@ func logAllRequests(next http.Handler) http.Handler {
 	})
 }
 
-func CreateArticle(b blog.Blog) http.HandlerFunc {
+func CreateArticle(b blog.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var v blog.Article
 		json.NewDecoder(r.Body).Decode(&v)
@@ -43,7 +43,7 @@ func CreateArticle(b blog.Blog) http.HandlerFunc {
 	}
 }
 
-func ReadArticles(b blog.Blog) http.HandlerFunc {
+func ReadArticles(b blog.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		result := make([]*blog.Article, 5)
 		n := b.LoadArticles(result)
@@ -51,7 +51,7 @@ func ReadArticles(b blog.Blog) http.HandlerFunc {
 	}
 }
 
-func DeleteArticle(b blog.Blog) http.HandlerFunc {
+func DeleteArticle(b blog.DB) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		if err := b.DeleteArticle(vars["title"]); err != nil {

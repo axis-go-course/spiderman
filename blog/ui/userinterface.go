@@ -13,7 +13,7 @@ func UserInterface(s *blog.Service) http.HandlerFunc {
 	t := template.Must(template.ParseGlob(pattern))
 	return func(w http.ResponseWriter, r *http.Request) {
 		result := make([]*blog.Article, 10)
-		n := s.Blog.LoadArticles(result)
+		n := s.DB.LoadArticles(result)
 		t.ExecuteTemplate(w, "index", struct {
 			BlogName string
 			Articles []*blog.Article

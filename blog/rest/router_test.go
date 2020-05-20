@@ -21,13 +21,13 @@ func Test_service(t *testing.T) {
 	B := &blog.Article{Title: "second", Content: "second"}
 	exp.StatusCode(201, "POST", "/articles", A.Reader())
 	exp.StatusCode(201, "POST", "/articles", B.Reader())
-	assert(len(s.Blog) == 2).Fatal("articles not saved")
+	assert(len(s.DB) == 2).Fatal("articles not saved")
 	exp.StatusCode(200, "GET", "/articles", nil)
 	exp.StatusCode(200, "GET", "/", nil)
 	exp.Contains("first", "GET", "/", nil)
 	exp.StatusCode(404, "DELETE", "/articles/nosuch")
 	exp.StatusCode(204, "DELETE", "/articles/first")
-	assert(len(s.Blog) == 1).Fatal("article not deleted")
+	assert(len(s.DB) == 1).Fatal("article not deleted")
 }
 
 func ExampleNewRouter_GET_articles() {

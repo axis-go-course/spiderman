@@ -11,7 +11,7 @@ func Test_blog(t *testing.T) {
 	A := &Article{Title: "first", Content: "first"}
 	B := &Article{Title: "second", Content: "second"}
 	all := []*Article{A, B}
-	b := NewBlog()
+	b := NewDatabase()
 	b.SaveArticle(all...)
 	mustNot(t, b.SaveArticle(&Article{}))
 	mustNot(t, b.DeleteArticle("no such title"))
