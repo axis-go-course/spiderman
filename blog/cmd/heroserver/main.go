@@ -7,6 +7,7 @@ import (
 	"os"
 
 	"github.com/axis-go-course/spiderman/blog"
+	"github.com/axis-go-course/spiderman/blog/rest"
 )
 
 func main() {
@@ -29,6 +30,6 @@ type cli struct {
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
 	s := blog.NewService(c.templatesDir)
-	r := blog.NewRouter(s)
+	r := rest.NewRouter(s)
 	return http.ListenAndServe(c.bind, r)
 }

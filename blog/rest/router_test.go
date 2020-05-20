@@ -10,7 +10,7 @@ import (
 )
 
 func Test_service(t *testing.T) {
-	s := blog.NewService("templates")
+	s := blog.NewService("../templates")
 	r := NewRouter(s)
 	assert := asserter.New(t)
 	exp := assert().ResponseFrom(r)
@@ -31,7 +31,7 @@ func Test_service(t *testing.T) {
 }
 
 func ExampleNewRouter_GET_articles() {
-	s := blog.NewService("templates")
+	s := blog.NewService("../templates")
 	r := NewRouter(s)
 	r.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:

@@ -7,6 +7,7 @@ import (
 	"net/http"
 
 	"github.com/axis-go-course/spiderman/blog"
+	"github.com/axis-go-course/spiderman/blog/ui"
 	"github.com/gorilla/mux"
 )
 
@@ -15,7 +16,7 @@ func NewRouter(s *blog.Service) *mux.Router {
 	r.Handle("/articles", CreateArticle(s.Blog)).Methods("POST")
 	r.Handle("/articles", ReadArticles(s.Blog)).Methods("GET")
 	r.Handle("/articles/{title}", DeleteArticle(s.Blog)).Methods("DELETE")
-	r.Handle("/", blog.UserInterface(s))
+	r.Handle("/", ui.UserInterface(s))
 
 	// middlewares
 	r.Use(logAllRequests)
