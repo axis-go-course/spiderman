@@ -13,5 +13,5 @@ func (a *Author) WriteArticle(page Page, article *Article) error {
 }
 
 func (a *Author) EraseArticle(page Page, article *Article) error {
-	return page.DeleteArticle(article.Title)
+	return page.deleteArticle(article.Title)
 }

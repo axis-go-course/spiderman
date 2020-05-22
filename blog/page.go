@@ -35,7 +35,7 @@ func (p Page) LoadArticles(v []*Article) int {
 	return i
 }
 
-func (p Page) DeleteArticle(title string) error {
+func (p Page) deleteArticle(title string) error {
 	if _, found := p[title]; found {
 		delete(p, title)
 		return nil

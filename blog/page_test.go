@@ -12,7 +12,7 @@ func Test_blog(t *testing.T) {
 	author := NewAuthor("Peter Parker")
 	page.saveArticle(all...)
 	mustNot(t, author.WriteArticle(page, &Article{}))
-	mustNot(t, page.DeleteArticle("no such title"))
+	mustNot(t, page.deleteArticle("no such title"))
 
 	for _, v := range all {
 		if v.Id.String() == "" {
