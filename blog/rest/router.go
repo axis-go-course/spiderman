@@ -30,7 +30,7 @@ func logAllRequests(next http.Handler) http.Handler {
 	})
 }
 
-func CreateArticle(b blog.DB) http.HandlerFunc {
+func CreateArticle(b blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		var v blog.Article
 		json.NewDecoder(r.Body).Decode(&v)
@@ -43,7 +43,7 @@ func CreateArticle(b blog.DB) http.HandlerFunc {
 	}
 }
 
-func ReadArticles(b blog.DB) http.HandlerFunc {
+func ReadArticles(b blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		result := make([]*blog.Article, 5)
 		n := b.LoadArticles(result)
@@ -51,7 +51,7 @@ func ReadArticles(b blog.DB) http.HandlerFunc {
 	}
 }
 
-func DeleteArticle(b blog.DB) http.HandlerFunc {
+func DeleteArticle(b blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
 		if err := b.DeleteArticle(vars["title"]); err != nil {

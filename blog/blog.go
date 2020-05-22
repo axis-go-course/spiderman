@@ -6,26 +6,26 @@ import (
 	"github.com/google/uuid"
 )
 
-func NewBlog() Blog {
+func NewPage() Page {
 	return make(map[string]*Article)
 }
 
-type Blog map[string]*Article
+type Page map[string]*Article
 
-func (b Blog) SaveArticle(v ...*Article) error {
+func (p Page) SaveArticle(v ...*Article) error {
 	for _, a := range v {
 		if a.Title == "" {
 			return fmt.Errorf("missing title")
 		}
 		a.Id, _ = uuid.NewUUID()
-		b[a.Title] = a
+		p[a.Title] = a
 	}
 	return nil
 }
 
-func (b Blog) LoadArticles(v []*Article) int {
+func (p Page) LoadArticles(v []*Article) int {
 	var i int
-	for _, a := range b {
+	for _, a := range p {
 		if i == len(v) {
 			break
 		}
@@ -35,9 +35,9 @@ func (b Blog) LoadArticles(v []*Article) int {
 	return i
 }
 
-func (b Blog) DeleteArticle(title string) error {
-	if _, found := b[title]; found {
-		delete(b, title)
+func (p Page) DeleteArticle(title string) error {
+	if _, found := p[title]; found {
+		delete(p, title)
 		return nil
 	}
 	return fmt.Errorf("article not found")

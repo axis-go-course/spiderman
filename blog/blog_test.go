@@ -8,10 +8,10 @@ func Test_blog(t *testing.T) {
 	A := &Article{Title: "first", Content: "first"}
 	B := &Article{Title: "second", Content: "second"}
 	all := []*Article{A, B}
-	b := NewBlog()
-	b.SaveArticle(all...)
-	mustNot(t, b.SaveArticle(&Article{}))
-	mustNot(t, b.DeleteArticle("no such title"))
+	p := NewPage()
+	p.SaveArticle(all...)
+	mustNot(t, p.SaveArticle(&Article{}))
+	mustNot(t, p.DeleteArticle("no such title"))
 
 	for _, v := range all {
 		if v.Id.String() == "" {
@@ -21,16 +21,16 @@ func Test_blog(t *testing.T) {
 
 	result := make([]*Article, 5)
 	exp := len(all)
-	if got := b.LoadArticles(result); got != exp {
+	if got := p.LoadArticles(result); got != exp {
 		t.Error("load all expected", exp, "articles, got", got)
 	}
 
 	exp = 1
-	if got := b.LoadArticles(result[:exp]); got != exp {
+	if got := p.LoadArticles(result[:exp]); got != exp {
 		t.Error("load partial expected", exp, "articles, got", got)
 	}
 
-	if err := b.DeleteArticle(A.Title); err != nil {
+	if err := p.DeleteArticle(A.Title); err != nil {
 		t.Error("delete expected", err)
 	}
 }
