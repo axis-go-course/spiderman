@@ -29,16 +29,17 @@ func logAllRequests(next http.Handler) http.Handler {
 	})
 }
 
-func CreateArticle(b blog.Page) http.HandlerFunc {
+func CreateArticle(page blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		var v blog.Article
-		json.NewDecoder(r.Body).Decode(&v)
-		if err := b.SaveArticle(&v); err != nil {
+		var article blog.Article
+		json.NewDecoder(r.Body).Decode(&article)
+		author := blog.NewAuthor("anonymous")
+		if err := author.WriteArticle(page, &article); err != nil {
 			w.WriteHeader(http.StatusBadRequest)
 			return
 		}
 		w.WriteHeader(http.StatusCreated)
-		io.Copy(w, v.Reader())
+		io.Copy(w, article.Reader())
 	}
 }
 

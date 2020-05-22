@@ -12,7 +12,7 @@ func NewPage() Page {
 
 type Page map[string]*Article
 
-func (p Page) SaveArticle(v ...*Article) error {
+func (p Page) saveArticle(v ...*Article) error {
 	for _, a := range v {
 		if a.Title == "" {
 			return fmt.Errorf("missing title")

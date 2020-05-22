@@ -9,8 +9,8 @@ func Test_blog(t *testing.T) {
 	B := &Article{Title: "second", Content: "second"}
 	all := []*Article{A, B}
 	p := NewPage()
-	p.SaveArticle(all...)
-	mustNot(t, p.SaveArticle(&Article{}))
+	p.saveArticle(all...)
+	mustNot(t, p.saveArticle(&Article{}))
 	mustNot(t, p.DeleteArticle("no such title"))
 
 	for _, v := range all {
