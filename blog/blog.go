@@ -1,11 +1,9 @@
 package blog
 
 import (
-	"encoding/json"
 	"fmt"
-	"io"
 
-	"github.com/pborman/uuid"
+	"github.com/google/uuid"
 )
 
 func NewBlog() Blog {
@@ -14,27 +12,12 @@ func NewBlog() Blog {
 
 type Blog map[string]*Article
 
-type Article struct {
-	Id      uuid.UUID `json:"id"`
-	Title   string    `json:"title"`
-	Content string    `json:"content"`
-}
-
-func (a *Article) Reader() io.Reader {
-	r, w := io.Pipe()
-	go func() {
-		json.NewEncoder(w).Encode(a)
-		w.Close()
-	}()
-	return r
-}
-
 func (b Blog) SaveArticle(v ...*Article) error {
 	for _, a := range v {
 		if a.Title == "" {
 			return fmt.Errorf("missing title")
 		}
-		a.Id = uuid.NewUUID()
+		a.Id, _ = uuid.NewUUID()
 		b[a.Title] = a
 	}
 	return nil
