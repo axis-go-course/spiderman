@@ -13,7 +13,7 @@ import (
 
 func main() {
 	cli := &cli{}
-	flag.StringVar(&cli.templatesDir, "t", ".", "path to templates")
+	flag.StringVar(&cli.tmplDir, "t", ".", "path to templates")
 	flag.StringVar(&cli.bind, "bind", ":8080", "[host]:port to listen on")
 	flag.Parse()
 
@@ -24,14 +24,14 @@ func main() {
 }
 
 type cli struct {
-	templatesDir string
-	bind         string
+	tmplDir string
+	bind    string
 }
 
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
 	page := blog.NewPage()
-	ui, err := ui.UserInterface(c.templatesDir, page)
+	ui, err := ui.UserInterface(c.tmplDir, page)
 	if err != nil {
 		return err
 	}
