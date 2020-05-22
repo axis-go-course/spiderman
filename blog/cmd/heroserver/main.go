@@ -8,6 +8,7 @@ import (
 
 	"github.com/axis-go-course/spiderman/blog"
 	"github.com/axis-go-course/spiderman/blog/rest"
+	"github.com/axis-go-course/spiderman/blog/ui"
 )
 
 func main() {
@@ -29,7 +30,8 @@ type cli struct {
 
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
-	s := blog.NewService(c.templatesDir)
-	r := rest.NewRouter(s)
+	page := blog.NewPage()
+	ui := ui.UserInterface(c.templatesDir, page)
+	r := rest.NewRouter(page, ui)
 	return http.ListenAndServe(c.bind, r)
 }
