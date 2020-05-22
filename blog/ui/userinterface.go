@@ -8,9 +8,9 @@ import (
 	"github.com/axis-go-course/spiderman/blog"
 )
 
-func UserInterface(tmplDir string, page blog.Page) http.HandlerFunc {
+func UserInterface(tmplDir string, page blog.Page) (http.HandlerFunc, error) {
 	pattern := filepath.Join(tmplDir, "*.tmpl")
-	t := template.Must(template.ParseGlob(pattern))
+	t, err := template.ParseGlob(pattern)
 	return func(w http.ResponseWriter, r *http.Request) {
 		result := make([]*blog.Article, 10)
 		n := page.LoadArticles(result)
@@ -21,5 +21,5 @@ func UserInterface(tmplDir string, page blog.Page) http.HandlerFunc {
 			"Spidermans blog",
 			result[:n],
 		})
-	}
+	}, err
 }

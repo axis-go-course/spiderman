@@ -12,7 +12,10 @@ import (
 
 func Test_service(t *testing.T) {
 	page := blog.NewPage()
-	ui := ui.UserInterface("../templates", page)
+	ui, err := ui.UserInterface("../ui/templates", page)
+	if err != nil {
+		t.Fatal(err)
+	}
 	r := NewRouter(page, ui)
 	assert := asserter.New(t)
 	exp := assert().ResponseFrom(r)
@@ -34,7 +37,7 @@ func Test_service(t *testing.T) {
 
 func ExampleNewRouter_GET_articles() {
 	page := blog.NewPage()
-	r := NewRouter(page, ui.UserInterface("../templates", page))
+	r := NewRouter(page, nil)
 	r.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
 	// output:
 	// []

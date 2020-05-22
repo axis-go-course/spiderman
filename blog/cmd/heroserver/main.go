@@ -31,7 +31,10 @@ type cli struct {
 func (c *cli) run() error {
 	fmt.Println("listening on", c.bind)
 	page := blog.NewPage()
-	ui := ui.UserInterface(c.templatesDir, page)
+	ui, err := ui.UserInterface(c.templatesDir, page)
+	if err != nil {
+		return err
+	}
 	r := rest.NewRouter(page, ui)
 	return http.ListenAndServe(c.bind, r)
 }
