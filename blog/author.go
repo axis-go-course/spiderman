@@ -11,3 +11,7 @@ type Author struct {
 func (a *Author) WriteArticle(page Page, article *Article) error {
 	return page.saveArticle(article)
 }
+
+func (a *Author) EraseArticle(page Page, article *Article) error {
+	return page.DeleteArticle(article.Title)
+}

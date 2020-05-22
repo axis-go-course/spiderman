@@ -43,18 +43,20 @@ func CreateArticle(page blog.Page) http.HandlerFunc {
 	}
 }
 
-func ReadArticles(b blog.Page) http.HandlerFunc {
+func ReadArticles(page blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		result := make([]*blog.Article, 5)
-		n := b.LoadArticles(result)
+		n := page.LoadArticles(result)
 		json.NewEncoder(w).Encode(result[:n])
 	}
 }
 
-func DeleteArticle(b blog.Page) http.HandlerFunc {
+func DeleteArticle(page blog.Page) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 		vars := mux.Vars(r)
-		if err := b.DeleteArticle(vars["title"]); err != nil {
+		author := blog.NewAuthor("anonymous")
+		article := &blog.Article{Title: vars["title"]}
+		if err := author.EraseArticle(page, article); err != nil {
 			w.WriteHeader(http.StatusNotFound)
 			return
 		}
