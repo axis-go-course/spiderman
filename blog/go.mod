@@ -1,4 +1,4 @@
-module github.com/axis-go-course/spiderman
+module github.com/axis-go-course/spiderman/blog
 
 go 1.14
 
