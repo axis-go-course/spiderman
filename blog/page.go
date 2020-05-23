@@ -23,6 +23,8 @@ func (p Page) saveArticle(v ...*Article) error {
 	return nil
 }
 
+// LoadArticles loads the first articles into v, returns number of
+// articles loaded.
 func (p Page) LoadArticles(v []*Article) int {
 	var i int
 	for _, a := range p {
