@@ -1,4 +1,4 @@
-package example
+package explore
 
 import (
 	"net/http"
