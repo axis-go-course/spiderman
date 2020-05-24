@@ -1,3 +1,4 @@
+// Package rest exposes the blog network API via REST handlers
 package rest
 
 import (

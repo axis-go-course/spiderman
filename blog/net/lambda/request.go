@@ -1,4 +1,5 @@
-package net
+// Package lambda exposes blog network API as lambda handlers
+package lambda
 
 import (
 	"io"

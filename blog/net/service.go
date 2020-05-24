@@ -1,3 +1,4 @@
+// Package net implements network API of the spiderman blog.
 package net
 
 import "github.com/axis-go-course/spiderman/blog"
