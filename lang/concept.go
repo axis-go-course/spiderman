@@ -1,7 +1,7 @@
 package main
 
 func main() {
-	// slices: types and ranges
+	// slices: make and ranges
 	// maps: Printf vs. loop
 	// structs + methods: Device String
 	// embedding: Vehicles and cars
