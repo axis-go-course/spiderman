@@ -4,10 +4,10 @@ import (
 	"net/http"
 )
 
-type httpResp struct {
+type Response struct {
 	http.ResponseWriter
 }
 
-func (w *httpResp) SetHeader(key, val string) {
+func (w *Response) SetHeader(key, val string) {
 	w.Header().Set(key, val)
 }
