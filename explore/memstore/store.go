@@ -1,9 +1,6 @@
 package memstore
 
-import (
-	"encoding/json"
-	"os"
-)
+import "fmt"
 
 func NewStore() *Store {
 	return &Store{
@@ -16,13 +13,7 @@ type Store struct {
 }
 
 func (s *Store) Import(filename string) (int, error) {
-	in, err := os.Open(filename)
-	if err != nil {
-		return 0, err
-	}
-	dec := json.NewDecoder(in)
-	err = dec.Decode(&s.products)
-	return len(s.products), err
+	return 0, fmt.Errorf("TODO")
 }
 
 type Product struct {
