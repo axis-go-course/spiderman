@@ -7,7 +7,7 @@ import (
 	"os"
 
 	"github.com/axis-go-course/spiderman/blog"
-	"github.com/axis-go-course/spiderman/blog/rest"
+	"github.com/axis-go-course/spiderman/blog/net/rest"
 	"github.com/axis-go-course/spiderman/blog/ui"
 )
 
