@@ -12,7 +12,7 @@ import (
 
 func Test_service(t *testing.T) {
 	page := blog.NewPage()
-	ui, err := ui.UserInterface("../ui/templates", page)
+	ui, err := ui.UserInterface("../../ui/templates", page)
 	if err != nil {
 		t.Fatal(err)
 	}
