@@ -1,0 +1,7 @@
+create github.com/YOU/course
+go get -v github.com/YOU/course
+cd $GOPATH/src/github.com/YOU/course
+
+build command, use -ldflags
+
+go get golang.org/x/tools/cmd/goimports
