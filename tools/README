@@ -1,6 +1,6 @@
-create github.com/YOU/course
-go get -v github.com/YOU/course
-cd $GOPATH/src/github.com/YOU/course
+create github.com/YOU/blog
+go get -v github.com/YOU/blog
+cd $GOPATH/src/github.com/YOU/blog
 
 build command, use -ldflags
 
