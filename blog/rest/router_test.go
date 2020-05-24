@@ -35,7 +35,7 @@ func Test_service(t *testing.T) {
 	assert(len(page) == 1).Fatal("article not deleted")
 }
 
-func ExampleNewRouter_GET_articles() {
+func ExampleNewRouter_getArticles() {
 	page := blog.NewPage()
 	r := NewRouter(page, nil)
 	r.ServeHTTP(ex.JsonOf(http.NewRequest("GET", "/articles", nil)))
