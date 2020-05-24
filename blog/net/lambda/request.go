@@ -9,20 +9,20 @@ import (
 	"github.com/aws/aws-lambda-go/events"
 )
 
-func NewLambdaReq(r *events.APIGatewayProxyRequest) *lambdaReq {
-	return &lambdaReq{r: r, bodyReader: strings.NewReader(r.Body)}
+func NewRequest(r *events.APIGatewayProxyRequest) *Request {
+	return &Request{r: r, bodyReader: strings.NewReader(r.Body)}
 }
 
-type lambdaReq struct {
+type Request struct {
 	r          *events.APIGatewayProxyRequest
 	bodyReader io.Reader
 }
 
-func (a *lambdaReq) Read(p []byte) (int, error) {
+func (a *Request) Read(p []byte) (int, error) {
 	return a.bodyReader.Read(p)
 }
 
-func (a *lambdaReq) Query() url.Values {
+func (a *Request) Query() url.Values {
 	v := url.Values{}
 	for k, in := range a.r.MultiValueQueryStringParameters {
 		for _, inval := range in {
@@ -35,7 +35,7 @@ func (a *lambdaReq) Query() url.Values {
 	return v
 }
 
-func (a *lambdaReq) Header() http.Header {
+func (a *Request) Header() http.Header {
 	if a.r.MultiValueHeaders == nil {
 		a.r.MultiValueHeaders = make(http.Header)
 	}
