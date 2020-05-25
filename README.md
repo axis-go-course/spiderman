@@ -9,3 +9,10 @@
 ## Afternoon
 
 1. Write a blog service
+
+
+## References
+
+- [Go lang in 7 hours](https://www.youtube.com/watch?v=YS4e4q9oBaU)
+- [Principles of clean architecture](https://www.youtube.com/watch?v=o_TH-Y78tt4)
+- [The future of programming](https://www.youtube.com/watch?v=ecIWPzGEbFc)
